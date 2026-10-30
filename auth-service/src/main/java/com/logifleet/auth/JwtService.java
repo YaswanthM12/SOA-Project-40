@@ -1,0 +1,26 @@
+package com.logifleet.auth;
+import java.nio.charset.StandardCharsets;
+import java.util.*; 
+import javax.crypto.SecretKey;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+@Service 
+public class JwtService 
+{ 
+	private final SecretKey key; 
+	public JwtService(@Value("${app.jwt.secret}") String secret)
+	{
+		key=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+		}
+	public String create(User u)
+	{
+		return Jwts.builder()
+				.subject(u.username).claim("role",u.role)
+				.issuedAt(new Date())
+				.expiration(new Date(System.currentTimeMillis()+86400000))
+				.signWith(key).compact();
+	} 
+}

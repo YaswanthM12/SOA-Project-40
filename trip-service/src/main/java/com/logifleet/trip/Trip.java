@@ -1,0 +1,23 @@
+package com.logifleet.trip;
+
+import java.time.*;
+
+import jakarta.persistence.*;
+
+@Entity
+public class Trip {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
+
+    public Long vehicleId;
+    public String driverId;
+    public String origin;
+    public String destination;
+    public String tripStatus;
+
+    public LocalDateTime assignedAt;
+    public LocalDateTime startedAt;
+    public LocalDateTime completedAt;
+}
